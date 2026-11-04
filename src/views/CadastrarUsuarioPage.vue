@@ -63,7 +63,7 @@ import {
 import { useAuth } from '../composables/useAuth'
 
 const router = useRouter()
-const { signUp } = useAuth()
+const { cadastrar: cadastrarUsuario } = useAuth()
 
 const email = ref('')
 const senha = ref('')
@@ -82,7 +82,7 @@ async function cadastrar() {
 
   carregando.value = true
   try {
-    await signUp(email.value, senha.value)
+    await cadastrarUsuario(email.value, senha.value)
     const toast = await toastController.create({
       message: 'Conta criada com sucesso! Faça login.',
       duration: 3000,

@@ -30,8 +30,18 @@ async function login(email: string, senha: string) {
 }
 
 async function cadastrar(email: string, senha: string) {
-  const { data, error } = await supabase.auth.signUp({ email, password: senha })
-  if (error) throw error
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password: senha,
+  })
+
+  if (error) {
+    console.error('Erro no cadastro:', error.message)
+    throw error
+  }
+
+  console.log('Resultado do cadastro:', data)
+
   return data
 }
 

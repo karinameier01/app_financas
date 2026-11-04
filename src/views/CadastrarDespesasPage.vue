@@ -126,3 +126,6 @@ async function confirmarExclusao(item: Lancamento) {
       },
     ],
   })
+}
+
+</script>
