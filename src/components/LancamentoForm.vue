@@ -12,10 +12,10 @@
     <ion-content class="ion-padding">
       <ion-item>
         <ion-input
-          v-model="descricao"
-          label="Descrição"
-          label-placement="floating"
-          maxlength="100"
+        v-model="descricao"
+        label="Descrição"
+        label-placement="floating"
+        :maxlength="100"
         />
       </ion-item>
       <ion-note v-if="erros.descricao" color="danger" class="erro">{{ erros.descricao }}</ion-note>

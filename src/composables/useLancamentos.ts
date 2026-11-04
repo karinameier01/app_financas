@@ -1,7 +1,9 @@
 import { ref } from 'vue'
+
 import { supabase } from '@/lib/supabase'
 import type { Lancamento, NovoLancamento, Tabela } from '@/types'
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function useLancamentos(tabela: Tabela) {
   const itens = ref<Lancamento[]>([])
   const carregando = ref(false)

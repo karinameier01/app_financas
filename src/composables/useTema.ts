@@ -30,6 +30,7 @@ function alternarTema() {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function useTema() {
   return { escuro: readonly(escuro), iniciarTema, alternarTema }
 }

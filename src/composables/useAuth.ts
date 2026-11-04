@@ -1,5 +1,6 @@
-import { ref, readonly } from 'vue'
 import type { Session, User } from '@supabase/supabase-js'
+import { ref, readonly } from 'vue'
+
 import { supabase } from '@/lib/supabase'
 
 const user = ref<User | null>(null)
@@ -50,6 +51,7 @@ async function logout() {
   if (error) throw error
 }
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function useAuth() {
   return {
     user: readonly(user),

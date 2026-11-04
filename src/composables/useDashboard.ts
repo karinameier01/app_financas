@@ -1,4 +1,5 @@
 import { computed, ref } from 'vue'
+
 import { supabase } from '../lib/supabase'
 import type { Lancamento, Tabela } from '../types'
 
@@ -29,6 +30,7 @@ async function buscar(tabela: Tabela, inicio: string | null): Promise<Lancamento
 
 const somar = (lista: Lancamento[]) => lista.reduce((t, i) => t + Number(i.valor), 0)
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function useDashboard() {
   const receitas = ref<Lancamento[]>([])
   const despesas = ref<Lancamento[]>([])

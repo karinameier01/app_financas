@@ -105,7 +105,6 @@ async function salvar(dados: NovoLancamento) {
     salvando.value = false
   }
 }
-
 async function confirmarExclusao(item: Lancamento) {
   const alerta = await alertController.create({
     header: 'Excluir despesa',
@@ -126,6 +125,7 @@ async function confirmarExclusao(item: Lancamento) {
       },
     ],
   })
+  await alerta.present()   // <- essa linha estava faltando
 }
 
 </script>

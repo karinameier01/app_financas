@@ -90,6 +90,7 @@
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
+
 import {
   IonPage, IonHeader, IonToolbar, IonTitle, IonButtons, IonBackButton, IonContent,
   IonItem, IonSelect, IonSelectOption, IonSpinner,
@@ -97,6 +98,7 @@ import {
   toastController, onIonViewWillEnter,
 } from '@ionic/vue'
 import VueApexCharts from 'vue3-apexcharts'
+
 import SummaryCard from '../components/SummaryCard.vue'
 import { useDashboard } from '../composables/useDashboard'
 import type { Periodo } from '../composables/useDashboard'
@@ -143,13 +145,13 @@ const base = computed(() => ({
     foreColor: escuro.value ? '#e0e0e0' : '#373d3f',
     toolbar: { show: false },
   },
-  theme: { mode: escuro.value ? 'dark' : 'light' },
+  theme: { mode: (escuro.value ? 'dark' : 'light') as 'dark' | 'light' },
 }))
 
 const opcoesPizza = computed(() => ({
   ...base.value,
   labels: categorias.value,
-  legend: { position: 'bottom' },
+  legend: { position: 'bottom' as const },
   tooltip: { y: { formatter: (v: number) => formatarValor(v) } },
 }))
 
@@ -165,7 +167,7 @@ const opcoesBarras = computed(() => ({
   dataLabels: { enabled: false },
   xaxis: { categories: porMes.value.meses },
   yaxis: { labels: { formatter: (v: number) => 'R$ ' + Math.round(v) } },
-  legend: { position: 'top' },
+  legend: { position: 'top' as const },
   tooltip: { y: { formatter: (v: number) => formatarValor(v) } },
 }))
 </script>
