@@ -35,6 +35,10 @@ const routes: RouteRecordRaw[] = [
     path: '/despesas',
     component: () => import('../views/CadastrarDespesasPage.vue'),
   },
+  {
+    path: '/dashboard',
+    component: () => import('../views/DashboardFinanceiroPage.vue'),
+  },
 ];
 
 const router = createRouter({
