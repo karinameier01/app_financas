@@ -1,61 +1,126 @@
 <template>
   <ion-page>
-    <ion-header :translucent="true">
-      <ion-toolbar>
-        <ion-title>Blank</ion-title>
+    <ion-header>
+      <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+          <ion-back-button default-href="/login" />
+        </ion-buttons>
+        <ion-title>Criar Conta</ion-title>
       </ion-toolbar>
     </ion-header>
 
-    <ion-content :fullscreen="true">
-      <ion-header collapse="condense">
-        <ion-toolbar>
-          <ion-title size="large">Blank</ion-title>
-        </ion-toolbar>
-      </ion-header>
+    <ion-content class="ion-padding centro">
+      <div class="container">
+        <h2>Cadastrar-se</h2>
+        <p class="sub">Preencha os dados para criar sua conta</p>
 
-      <div id="container">
-        <strong>Ready to create an app?</strong>
-        <p>
-          Start with Ionic
-          <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components"
-            >UI Components</a
-          >
-        </p>
+        <form @submit.prevent="cadastrar">
+          <ion-item>
+            <ion-input
+              v-model="email"
+              type="email"
+              label="E-mail"
+              label-placement="floating"
+              required
+            />
+          </ion-item>
+
+          <ion-item>
+            <ion-input
+              v-model="senha"
+              type="password"
+              label="Senha (mínimo 6 caracteres)"
+              label-placement="floating"
+              required
+            />
+          </ion-item>
+
+          <ion-button expand="block" type="submit" class="ion-margin-top" :disabled="carregando">
+            {{ carregando ? 'Cadastrando...' : 'Cadastrar' }}
+          </ion-button>
+        </form>
       </div>
     </ion-content>
   </ion-page>
 </template>
 
 <script setup lang="ts">
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import {
+  IonPage,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonButtons,
+  IonBackButton,
+  IonContent,
+  IonItem,
+  IonInput,
+  IonButton,
+  toastController,
+} from '@ionic/vue'
+import { useAuth } from '../composables/useAuth'
+
+const router = useRouter()
+const { signUp } = useAuth()
+
+const email = ref('')
+const senha = ref('')
+const carregando = ref(false)
+
+async function cadastrar() {
+  if (senha.value.length < 6) {
+    const toast = await toastController.create({
+      message: 'A senha precisa ter pelo menos 6 caracteres.',
+      duration: 3000,
+      color: 'warning',
+    })
+    await toast.present()
+    return
+  }
+
+  carregando.value = true
+  try {
+    await signUp(email.value, senha.value)
+    const toast = await toastController.create({
+      message: 'Conta criada com sucesso! Faça login.',
+      duration: 3000,
+      color: 'success',
+    })
+    await toast.present()
+    router.replace('/login')
+  } catch (err: any) {
+    const toast = await toastController.create({
+      message: err.message || 'Erro ao cadastrar. Tente novamente.',
+      duration: 3000,
+      color: 'danger',
+    })
+    await toast.present()
+  } finally {
+    carregando.value = false
+  }
+}
 </script>
 
 <style scoped>
-#container {
+.centro {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.container {
+  width: 100%;
+  max-width: 360px;
+}
+h2 {
+  font-weight: bold;
   text-align: center;
-
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  margin-bottom: 4px;
 }
-
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
-}
-
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-
-  color: #8c8c8c;
-
-  margin: 0;
-}
-
-#container a {
-  text-decoration: none;
+.sub {
+  text-align: center;
+  color: var(--ion-color-medium);
+  margin-bottom: 24px;
 }
 </style>
